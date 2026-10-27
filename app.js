@@ -3,6 +3,12 @@
   'use strict';
 
   const DATA = window.TCM_DATA;
+  // 追加独立数据文件中的教材（承淡安伤寒论新注）
+  if (window.TCM_DATA_CHENGDAN && window.TCM_DATA_CHENGDAN.books) {
+    window.TCM_DATA_CHENGDAN.books.forEach(b => {
+      if (!DATA.books.some(x => x.id === b.id)) DATA.books.push(b);
+    });
+  }
   const IMG_BASE = 'images/';
 
   // ===== State =====
@@ -36,6 +42,9 @@
         { id: 'nizhu_shennong', name: '倪注神农本草经教材', display: '倪注神农本草经' },
         { id: 'nizhu_jinkui', name: '倪海厦注解《金匮要略》教材', display: '倪海厦注解《金匮要略》' },
     ]},
+    { key: 'chengdan', label: '承注伤寒', icon: 'book', books: [
+        { id: 'chengdan_shanghan', name: '承淡安伤寒论新注', display: '承淡安伤寒论新注' },
+    ]},
     { key: 'tianji', label: '天纪', icon: 'taiji', books: [
         { id: 'nizhu_tianji', name: '倪海厦天纪·人间道教材', display: '倪海厦天纪·人间道' },
     ]},
@@ -62,7 +71,8 @@
   // 判断是否为内联 HTML 块（方剂框 / 条文框），这些块需要原样输出不转义
   function isHtmlBlock(s) {
     const t = s.trim();
-    return t.startsWith('<div class="formula-box">') || t.startsWith('<div class="verse-box">');
+    return t.startsWith('<div class="formula-box">') || t.startsWith('<div class="verse-box">')
+      || t.startsWith('<div class="cd-') || t.startsWith('<div class="fx-');
   }
 
   // 把整页文本切分为「块」：HTML块（方剂/条文）整体保留，纯文本行按段落合并。
@@ -75,7 +85,8 @@
     for (const raw of lines) {
       const line = raw.trim();
       if (!line) continue;
-      if (line.startsWith('<div class="formula-box">') || line.startsWith('<div class="verse-box">')) {
+      if (line.startsWith('<div class="formula-box">') || line.startsWith('<div class="verse-box">')
+          || line.startsWith('<div class="cd-') || line.startsWith('<div class="fx-')) {
         push();
         blocks.push({ html: true, lines: [line] });
       } else {

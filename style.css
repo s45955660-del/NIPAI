@@ -744,3 +744,31 @@ img { max-width: 100%; }
   font-size: .94em;
   line-height: 1.75;
 }
+
+/* ===== 承淡安《伤寒论新注》：药方与针法一律排作楷体小字 ===== */
+/* 正文段落（自成一节，避免以引号收尾的段落被合并） */
+.cd-p {
+  margin: 0 0 12px;
+  text-indent: 0;
+  white-space: normal;
+}
+
+/* 不另设边框/底色，随正文自然流下，只换字体与字号 */
+.cd-kai {
+  margin: 6px 0 12px;
+  padding: 0;
+  background: none;
+  border: 0;
+  font-family: "Kaiti SC", "STKaiti", "KaiTi", "楷体", "KaiTi_GB2312", "FangSong", "仿宋", serif;
+  font-size: .82em;
+  line-height: 1.85;
+  letter-spacing: .02em;
+  color: #4a4842;
+  text-indent: 0;
+  word-break: break-word;
+}
+.cd-kai .kai-name {
+  font-weight: 700;
+  color: #8a5a2b;
+  letter-spacing: .04em;
+}
